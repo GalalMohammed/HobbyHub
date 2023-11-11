@@ -1,0 +1,276 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+/* --------------------------------------------------------- */
+.cat img {
+  width: 50px;
+  height: 50px;
+}
+
+.cat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.cat:hover {
+  background-color: #eee;
+}
+
+.categories-section {
+  position: relative;
+}
+
+.categories {
+  display: flex;
+  overflow-y: auto;
+}
+
+.categories::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .arrows {
+    display: none;
+  }
+}
+
+.arrows {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  background-color: #fff;
+  color: black;
+  mix-blend-mode: screen;
+  border-radius: 50%;
+  text-align: center;
+  font-size: large;
+  top: 50%;
+  transform: translateY(-25%);
+  cursor: pointer;
+}
+
+.left-arrow {
+  left: 20px;
+  display: none;
+}
+
+.right-arrow {
+  right: 20px;
+}
+
+/* --------------------------------------------------------- */
+
+.button-box {
+  width: 305px;
+  margin: 50px auto;
+  position: relative;
+  border-radius: 10px;
+  background: #d3d3d3;
+}
+
+.toggle-btn {
+  padding: 10px 40px;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  outline: none;
+  position: relative;
+  text-align: center;
+  width: 150px;
+}
+
+.active {
+  color: #fff;
+}
+
+#btn {
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: 150px;
+  height: 100%;
+  background: #d0242e;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+
+/* ----------------------------------------------- */
+
+.hobbies {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.hobbies img {
+  width: 250px;
+  height: 250px;
+  border-radius: 30px;
+}
+
+.img-field {
+  position: relative;
+}
+
+.hobby {
+  position: absolute;
+  top: -100;
+  right: 50;
+  width: 250px;
+  height: 100px;
+  background-color: black;
+  opacity: 0.3;
+  border-radius: 10px 0 0 10px;
+  z-index: 100;
+}
+
+/* ---------------------------------------------------------- */
+/* 
+.chats {
+  display: none;
+} */
+
+.chat {
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+  align-items: center;
+  margin: 30px 0;
+}
+
+.chats img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  /* margin-top: 20px; */
+}
+
+.img-info {
+  display: flex;
+  gap: 20px;
+}
+
+.addIcon {
+  background-color: #d3d3d3;
+  border-radius: 10px;
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  line-height: 2.5;
+}
+
+.txt {
+  line-height: 0.32;
+}
+
+/* ------------------------------------------------------ */
+.main-title::after {
+  content: "";
+  position: absolute;
+  width: 140px;
+  height: 2px;
+  background-color: #d0242e;
+  left: 45.5%;
+}
+
+.about-content {
+  margin-top: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+@media (max-width: 991px) {
+  .about-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.about-content .image {
+  position: relative;
+  width: 250px;
+  height: 375px;
+}
+
+@media (max-width: 991px) {
+  .about-content .image {
+    margin: 0 auto 60px;
+  }
+}
+
+.about-content .image img {
+  max-width: 100%;
+}
+
+.about-content .image::before {
+  content: "";
+  position: absolute;
+  background-color: #ebeced;
+  width: 100px;
+  height: calc(100% + 60px);
+  top: -50px;
+  z-index: -1;
+  left: -20px;
+}
+
+.about-content .image::after {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 240px;
+  border-left: 80px solid #d0242e;
+  border-bottom: 80px solid #d0242e;
+  top: -25px;
+  right: -70px;
+  z-index: -1;
+}
+
+@media (max-width: 991px) {
+  .about-content .image::before,
+  .about-content .image::after {
+    display: none;
+  }
+}
+
+.about-content .text {
+  flex-basis: calc(100% - 500px);
+}
+
+.about-content .text p:first-of-type {
+  font-weight: bold;
+  line-height: 2;
+  margin-bottom: 40px;
+}
+
+.about-content .text hr {
+  width: 50%;
+  display: inline-block;
+  border-color: #d0242e;
+}
+
+.about-content .text p:last-of-type {
+  color: #444;
+  font-weight: 300;
+  line-height: 2;
+}
