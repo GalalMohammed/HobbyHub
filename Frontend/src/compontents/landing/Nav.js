@@ -75,7 +75,7 @@ function Nav(props) {
             <MenuIcon />
           </IconButton>
           <img
-            src="../../hobbyhub/images/logoWhite.png"
+            src="../../HobbyHub/images/logoWhite.png"
             alt="logo"
             style={{
               // flexGrow: 1,
@@ -97,7 +97,7 @@ function Nav(props) {
             <Button
               variant="contained"
               sx={{ marginRight: "10px", borderRadius: "20px" }}
-              onClick={() => nav("/signin")}
+              onClick={() => nav("/HobbyHub/signin")}
             >
               Sign In
             </Button>

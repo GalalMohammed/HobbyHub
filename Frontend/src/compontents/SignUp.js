@@ -125,7 +125,7 @@ export default function SignUp() {
             </Button>
             <Grid container>
               <Grid item>
-                <Button onClick={() => nav("/signin")} variant="body2">
+                <Button onClick={() => nav("/HobbyHub/signin")} variant="body2">
                   {"Already have an account? Sign In"}
                 </Button>
               </Grid>

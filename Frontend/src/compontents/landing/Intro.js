@@ -19,14 +19,14 @@ const Intro = () => {
           <Button
             variant="contained"
             sx={{ borderRadius: "20px" }}
-            onClick={() => nav("/signup")}
+            onClick={() => nav("/HobbyHub/signup")}
           >
             Join HobbyHub
           </Button>
         </div>
         <div className="img-section">
           <img
-            src="../../hobbyhub/images/Tennis-bro.png"
+            src="../../HobbyHub/images/Tennis-bro.png"
             alt="landing-img"
             style={{ width: "500px", marginLeft: "20px" }}
           />

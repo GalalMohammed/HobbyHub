@@ -63,7 +63,7 @@ export default function SignIn() {
       axios.defaults.headers.common[
         "Authorization"
       ] = `Token ${data.data["token"]}`;
-      nav("/home");
+      nav("/HobbyHub/home");
     }
   };
 
@@ -121,7 +121,7 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link path="/signup" variant="body2">
+                <Link path="/HobbyHub/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
