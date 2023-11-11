@@ -26,7 +26,7 @@ const Intro = () => {
         </div>
         <div className="img-section">
           <img
-            src="./images/Tennis-bro.png"
+            src="../../hobbyhub/images/Tennis-bro.png"
             alt="landing-img"
             style={{ width: "500px", marginLeft: "20px" }}
           />

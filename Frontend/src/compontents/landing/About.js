@@ -19,7 +19,7 @@ const About = () => {
         <div className="about-content">
           <div className="image">
             <img
-              src="./images/kajetan-sumila-gsOy0c8HdHc-unsplash.jpg"
+              src="../../hobbyhub/images/kajetan-sumila-gsOy0c8HdHc-unsplash.jpg"
               alt=""
             />
           </div>

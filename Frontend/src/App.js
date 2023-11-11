@@ -23,10 +23,10 @@ function App() {
     <div>
       <ThemeProvider theme={theme}>
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/HobbyHub" element={<Main />} />
+          <Route path="/HobbyHub/signin" element={<SignIn />} />
+          <Route path="/HobbyHub/signup" element={<SignUp />} />
+          <Route path="/HobbyHub/home" element={<Home />} />
         </Routes>
       </ThemeProvider>
     </div>

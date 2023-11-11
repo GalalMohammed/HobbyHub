@@ -75,7 +75,7 @@ function Nav(props) {
             <MenuIcon />
           </IconButton>
           <img
-            src="./images/logoWhite.png"
+            src="../../hobbyhub/images/logoWhite.png"
             alt="logo"
             style={{
               // flexGrow: 1,

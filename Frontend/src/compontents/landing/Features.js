@@ -41,7 +41,7 @@ const Features = () => {
           </div>
           <img
             className="feature-img"
-            src="./images/homefinal.png"
+            src="../../hobbyhub/images/homefinal.png"
             alt="home"
             style={{
               width: "700px",
@@ -65,7 +65,7 @@ const Features = () => {
           }}
         >
           <img
-            src="./images/hobbies.png"
+            src="../../hobbyhub/images/hobbies.png"
             alt="home"
             style={{
               width: "500px",
@@ -116,7 +116,7 @@ const Features = () => {
             </Typography>
           </div>
           <img
-            src="./images/groups.png"
+            src="../../hobbyhub/images/groups.png"
             alt="home"
             style={{
               width: "600px",
