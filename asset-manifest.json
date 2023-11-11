@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/HobbyHub/static/css/main.567a708a.css",
+    "main.js": "/HobbyHub/static/js/main.e45b24ca.js",
+    "static/js/787.ec79a6d5.chunk.js": "/HobbyHub/static/js/787.ec79a6d5.chunk.js",
+    "index.html": "/HobbyHub/index.html",
+    "main.567a708a.css.map": "/HobbyHub/static/css/main.567a708a.css.map",
+    "main.e45b24ca.js.map": "/HobbyHub/static/js/main.e45b24ca.js.map",
+    "787.ec79a6d5.chunk.js.map": "/HobbyHub/static/js/787.ec79a6d5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.567a708a.css",
+    "static/js/main.e45b24ca.js"
+  ]
+}
