@@ -88,8 +88,8 @@ DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "hobbyhub",
-        "USER": "postgres",#"alx_dev",
-        "PASSWORD": "root",#"alx_dev_pwd",
+        "USER": "alx_dev",
+        "PASSWORD": "alx_dev_pwd",
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
