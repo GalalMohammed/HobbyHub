@@ -8,11 +8,15 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.permissions import IsAuthenticated
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def getCategories(request):
     return Response(CategorySerializer(Category.objects.all(), many=True).data)
 
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def getHobbies(request, category):
     cat_obj = get_object_or_404(Category, name=category)
     hobbies = Hobby.objects.filter(category=cat_obj.id)

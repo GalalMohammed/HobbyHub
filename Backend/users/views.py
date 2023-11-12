@@ -44,6 +44,5 @@ def login(request):
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def user(request):
-    tokenstring = request.headers.get('Authorization')
-    return Response({"username": Token.objects.get(key=tokenstring[6:]).user.username})
+    return Response({"username": request.user.username})
     
