@@ -19,7 +19,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" path="/HobbyHub">
         HobbyHub
       </Link>{" "}
       {new Date().getFullYear()}
@@ -37,6 +37,7 @@ export default function SignIn() {
   });
   const [errorMessage, setErrorMessage] = React.useState("");
 
+  // Handle form values and send login request
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -50,6 +51,7 @@ export default function SignIn() {
       password: false,
     });
 
+    // Check if text fields are empty
     if (formData.get("username") === "") {
       setCheckFormValues({ ...checkFormValues, username: true });
     }
@@ -70,6 +72,7 @@ export default function SignIn() {
           }
         });
 
+      // Check if request is successful, save the token and add it to request headers
       if (status === 200) {
         localStorage.clear();
         localStorage.setItem("token", data.data.token);

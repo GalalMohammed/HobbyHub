@@ -8,6 +8,7 @@ const Home = () => {
   const [isHobbies, setIsHobbies] = useState(true);
   const [category, setCategory] = useState("Art");
 
+  // Handle active button
   useEffect(() => {
     const btn = document.getElementById("btn");
     const left = document.getElementById("left");

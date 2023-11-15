@@ -46,6 +46,7 @@ const GroupPosts = () => {
 
   const [group, setGroup] = useState({});
 
+  // Fetch group based on group ID
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/groups/${params.groupId}/`)
@@ -56,6 +57,7 @@ const GroupPosts = () => {
   const [posts, setPosts] = useState([]);
   const params = useParams();
 
+  // Fetch posts of the group based on its Id
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/groups/${params.groupId}/posts/`)
@@ -65,6 +67,7 @@ const GroupPosts = () => {
 
   const [username, setUsername] = useState("");
 
+  // Get the current user name
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/user/")
@@ -74,6 +77,7 @@ const GroupPosts = () => {
   const [notMember, setNotMember] = React.useState(false);
   const nav = useNavigate();
 
+  // Creates a new post and send it to the api
   const handlePost = async (formData) => {
     await axios
       .post(`http://localhost:8000/api/groups/${group.id}/post/`, formData, {

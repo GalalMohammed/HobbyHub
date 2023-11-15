@@ -9,6 +9,7 @@ import Main from "./compontents/landing/Main";
 import Group from "./compontents/Group";
 import MainLayout from "./compontents/MainLayout";
 
+// Change the default theme
 const theme = createTheme({
   palette: {
     primary: {
@@ -29,9 +30,6 @@ function App() {
           <Route path="/HobbyHub/signin" element={<SignIn />} />
           <Route path="/HobbyHub/signup" element={<SignUp />} />
           <Route path="/HobbyHub/main/*" element={<MainLayout />} />
-
-          {/* <Route path="/HobbyHub/home" element={<Home />} /> */}
-          {/* <Route path="/HobbyHub/groups/group/:groupId" element={<Group />} /> */}
         </Routes>
       </ThemeProvider>
     </div>

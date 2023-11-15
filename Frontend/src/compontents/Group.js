@@ -9,12 +9,14 @@ const Group = () => {
   const params = useParams();
   const nav = useNavigate();
 
+  // Fetch group based on group ID
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/groups/${params.groupId}/`)
       .then((res) => setGroup(res.data));
   }, []);
 
+  // Fetch posts of the group based on its Id
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/groups/${params.groupId}/posts/`)

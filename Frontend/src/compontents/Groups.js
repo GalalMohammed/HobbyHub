@@ -7,6 +7,7 @@ const Groups = ({ category }) => {
   const [groups, setGroups] = useState([]);
   const nav = useNavigate();
 
+  // send a request to join group
   const handleGroup = async (id) => {
     try {
       await axios.post(`http://localhost:8000/api/groups/${id}/join/`);
@@ -16,7 +17,7 @@ const Groups = ({ category }) => {
     }
   };
 
-  // Fetch chats on component mount
+  // Fetch groups on component mount
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/categories/${category}/groups/`)

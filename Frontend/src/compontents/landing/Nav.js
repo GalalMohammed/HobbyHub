@@ -42,7 +42,6 @@ function Nav(props) {
             <AnchorLink href={"#" + item}>
               <ListItemButton
                 sx={{ textAlign: "center" }}
-                // onClick={() => navigate(`#${item}`)}
               >
                 <ListItemText primary={item} />
               </ListItemButton>
@@ -78,7 +77,6 @@ function Nav(props) {
             src="../../HobbyHub/images/logoWhite.png"
             alt="logo"
             style={{
-              // flexGrow: 1,
               display: { xs: "none", sm: "block" },
               width: "250px",
               marginRight: "auto",

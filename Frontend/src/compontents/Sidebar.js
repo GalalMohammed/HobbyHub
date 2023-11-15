@@ -12,6 +12,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 const Sidebar = () => {
   const drawerWidth = 240;
   const nav = useNavigate();
+  // Sidebar links
   const menuItems = [
     {
       text: "Home",

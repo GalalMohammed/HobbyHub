@@ -6,6 +6,8 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const Navbar = () => {
   const [username, setUsername] = useState("");
+
+  // Get the user name
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/user/")

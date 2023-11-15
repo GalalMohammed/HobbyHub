@@ -19,7 +19,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" path="/HobbyHub">
         HobbyHub
       </Link>{" "}
       {new Date().getFullYear()}
@@ -41,6 +41,7 @@ export default function SignUp() {
     password: false,
   });
 
+  // Handle form values and send register request
   const handleSubmit = async (event) => {
     event.preventDefault();
     let status = 200;
@@ -50,6 +51,8 @@ export default function SignUp() {
       email: false,
       password: false,
     });
+
+    // Check if text fields are empty
     if (formValues.username === "") {
       setCheckFormValues({ ...checkFormValues, username: true });
     }
@@ -80,7 +83,7 @@ export default function SignUp() {
             console.log("status inside", status);
           }
         });
-      console.log("data", data.token);
+      // Save the token and add it to request headers
       localStorage.clear();
       localStorage.setItem("token", data.token);
       axios.defaults.headers.common["Authorization"] = `Token ${data["token"]}`;

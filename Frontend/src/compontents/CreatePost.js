@@ -12,6 +12,7 @@ const CreatePost = ({ open, handleClose, groupId, handlePost }) => {
   const [postData, setPostData] = React.useState({});
   const [image, setImage] = React.useState(null);
 
+  // Handle form data
   const handleSubmit = async (event) => {
     event.preventDefault();
     let formData = new FormData();
@@ -32,6 +33,7 @@ const CreatePost = ({ open, handleClose, groupId, handlePost }) => {
 
   const [group, setGroup] = React.useState({});
 
+  // Fetch group based on group ID
   React.useEffect(() => {
     axios
       .get(`http://localhost:8000/api/groups/${groupId}/`)
@@ -41,6 +43,7 @@ const CreatePost = ({ open, handleClose, groupId, handlePost }) => {
 
   let [hobbies, setHobbies] = React.useState([]);
 
+  // Fecth hobbies of group category
   React.useEffect(() => {
     axios
       .get(`http://localhost:8000/api/categories/${group.category}/hobbies/`)

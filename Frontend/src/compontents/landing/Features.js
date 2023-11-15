@@ -24,7 +24,6 @@ const Features = () => {
             paddingY: "50px",
             borderRadius: "20px",
             gap: "60px",
-            //   height: "300px",
           }}
         >
           <div>

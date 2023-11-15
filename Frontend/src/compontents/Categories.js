@@ -4,13 +4,14 @@ import { Container } from "@mui/material";
 
 const Categories = ({ handleCategory }) => {
   let [categories, setCategories] = useState([]);
+  // Fetch categories on component mount
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/categories/")
-      .then((res) => setCategories(res.data))
-      .then((res) => console.log("categories", categories));
+      .then((res) => setCategories(res.data));
   }, []);
 
+  // Handle categories slider
   const initSlider = () => {
     const imageList = document.querySelector(".categories");
     const sliderButtons = document.querySelectorAll(".arrows");
@@ -24,6 +25,7 @@ const Categories = ({ handleCategory }) => {
       });
     });
 
+    // Control each button visibility
     const handleSliderButtons = () => {
       sliderButtons[0].style.display =
         imageList.scrollLeft <= 0 ? "none" : "block";

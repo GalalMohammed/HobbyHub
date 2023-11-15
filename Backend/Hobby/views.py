@@ -11,6 +11,15 @@ from rest_framework.permissions import IsAuthenticated
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def getCategories(request):
+    """
+    Retrieve a list of all categories.
+
+    Parameters:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        Response: The HTTP response object containing the serialized data of all categories.
+    """
     return Response(CategorySerializer(Category.objects.all(), many=True).data)
 
 
@@ -18,6 +27,14 @@ def getCategories(request):
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def getHobbies(request, category):
+    """
+    Retrieve a list of hobbies based on the specified category.
+    Parameters:
+        request (HttpRequest): The HTTP request object.
+        category (str): The name of the category.
+    Returns:
+        Response: The HTTP response object containing the serialized data of the hobbies.
+    """
     cat_obj = get_object_or_404(Category, name=category)
     hobbies = Hobby.objects.filter(category=cat_obj.id)
     return Response(HobbySerializer(hobbies, many=True).data)

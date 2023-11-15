@@ -4,6 +4,8 @@ import { Box } from "@mui/material";
 
 const Hobbies = ({ category }) => {
   let [hobbies, setHobbies] = useState([]);
+
+  // Fetch hobbies based on chosen category
   useEffect(() => {
     axios
       .get(`http://localhost:8000/api/categories/${category}/hobbies/`)
