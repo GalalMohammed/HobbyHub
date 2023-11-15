@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Categories from "./Categories";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
-import Hobbies from "../Hobbies";
-import Chats from "./Chats";
+import Hobbies from "./ListHobbies";
+import Groups from "./Groups";
+import { Box } from "@mui/material";
 
 const Home = () => {
   const [isHobbies, setIsHobbies] = useState(true);
-
-  // const hobbies = document.querySelector(".hobbies");
-  // const chats = document.querySelector(".chats");
+  const [category, setCategory] = useState("Art");
 
   useEffect(() => {
     const btn = document.getElementById("btn");
@@ -34,38 +31,40 @@ const Home = () => {
     function leftClick() {
       btn.style.left = "0";
       setIsHobbies(true);
-      // hobbies.style.display = "flex";
-      // chats.style.display = "none";
     }
 
     function rightClick() {
       btn.style.left = "150px";
       setIsHobbies(false);
-      // hobbies.style.display = "none";
-      // chats.style.display = "block";
     }
-  });
+  }, []);
+
+  function handleCategory(category) {
+    console.log(category);
+    setCategory(category);
+  }
 
   return (
-    <div style={{ display: "flex" }}>
-      <Navbar />
-      <Sidebar />
-      <div>
-        <div style={{ height: "80px" }}></div>
-        <Categories />
-        <div class="form-box">
-          <div class="button-box">
-            <div id="btn"></div>
-            <button type="button" class="toggle-btn left active" id="left">
-              Hobbies
-            </button>
-            <button type="button" class="toggle-btn right" id="right">
-              Chats
-            </button>
-          </div>
+    <div>
+      <Categories handleCategory={handleCategory} />
+      <div class="form-box">
+        <div class="button-box">
+          <div id="btn"></div>
+          <button type="button" class="toggle-btn left active" id="left">
+            Hobbies
+          </button>
+          <button type="button" class="toggle-btn right" id="right">
+            Groups
+          </button>
         </div>
-        {isHobbies ? <Hobbies /> : <Chats />}
       </div>
+      <Box>
+        {isHobbies ? (
+          <Hobbies category={category} />
+        ) : (
+          <Groups category={category} />
+        )}
+      </Box>
     </div>
   );
 };

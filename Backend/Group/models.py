@@ -8,6 +8,7 @@ class Group(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     icon = models.ImageField(upload_to='Group_pic', null=True, default='defult.jpg')
+    backGround = models.ImageField(upload_to='Group_pic', null=True, default='defult.jpg')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, related_name='groups')
     members = models.ManyToManyField(HobbyUser, blank=True, related_name='groups')
 

@@ -33,6 +33,10 @@ code {
   background-color: #eee;
 }
 
+.cat .active {
+  background-color: #eee;
+}
+
 .categories-section {
   position: relative;
 }
@@ -168,15 +172,22 @@ code {
 .img-info {
   display: flex;
   gap: 20px;
+  width: 300px;
+}
+.group-img-info {
+  display: flex;
+  gap: 20px;
+  /* width: 300px; */
 }
 
 .addIcon {
-  background-color: #d3d3d3;
+  background-color: #f2f2f2;
   border-radius: 10px;
   width: 50px;
   height: 40px;
   text-align: center;
   line-height: 2.5;
+  cursor: pointer;
 }
 
 .txt {
@@ -273,4 +284,70 @@ code {
   color: #444;
   font-weight: 300;
   line-height: 2;
+}
+/* -------------------------------------------------- */
+.groupLink {
+  text-decoration: "none";
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
+}
+.groupLink:focus:hover:visited:link:active {
+  text-decoration: none;
+}
+
+/* ----------------------------------------------- */
+
+.posts {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.posts img {
+  width: 160px;
+  height: 160px;
+  border-radius: 30px;
+}
+
+/* --------------------------------------------------- */
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  margin-left: -30px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 30px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div {
+  /* change div to reference your elements you put in <Masonry> */
+  /* background: grey; */
+  margin-bottom: 30px;
+}
+
+/* ------------------------------------------------ */
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  width: 200px;
+  height: 40px;
 }

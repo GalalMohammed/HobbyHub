@@ -8,6 +8,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
+from rest_framework import status
 
 
 @api_view(['GET'])
@@ -47,11 +48,11 @@ def leaveGroup(request, group_id):
 def createPost(request, group_id):
     group = get_object_or_404(Group, id=group_id)
     if not group.members.filter(id=request.user.hobby_user.id).exists():
-        return Response({"message": "You are not a member of this group"})
+        return Response({"message": "You are not a member of this group"}, status=status.HTTP_403_FORBIDDEN)
     serializer = CreatePostSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
-        serializer.save(group=group, user=request.user.hobby_user)
-        return Response(serializer.data)
+        post = serializer.save(group=group, user=request.user.hobby_user)
+        return Response(RetrivePostSerializer(post).data)
     return Response(serializer.errors)
 
 @api_view(['POST'])
@@ -60,7 +61,7 @@ def createPost(request, group_id):
 def addComment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if not post.group.members.filter(id=request.user.hobby_user.id).exists():
-        return Response({"message": "You are not a member of this group"})
+        return Response({"message": "You are not a member of this group"}, status=status.HTTP_403_FORBIDDEN)
     serializer = AddCommentSerializer(data=request.data, context={'request': request})
     if serializer.is_valid():
         serializer.save(post=post, user=request.user.hobby_user)

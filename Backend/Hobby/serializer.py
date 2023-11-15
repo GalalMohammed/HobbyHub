@@ -19,7 +19,7 @@ class HobbySerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
     class Meta:
         model = Hobby
-        fields = ['name', 'image', 'category', 'image_url']
+        fields = ['name', 'category', 'image_url']
 
     def get_image_url(self, obj):
         if obj.image:

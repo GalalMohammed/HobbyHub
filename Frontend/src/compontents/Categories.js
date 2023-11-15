@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "@mui/material";
 
-const Categories = () => {
+const Categories = ({ handleCategory }) => {
   let [categories, setCategories] = useState([]);
   useEffect(() => {
     axios
@@ -37,11 +37,7 @@ const Categories = () => {
   };
 
   useEffect(() => {
-    // const cleanupFunction =
     initSlider();
-    // return () => {
-    //   cleanupFunction();
-    // };
   });
   return (
     <Container className="categories-section">
@@ -49,7 +45,11 @@ const Categories = () => {
       <div className="categories">
         <span className="arrows left-arrow">&lt;</span>
         {categories.map((category) => (
-          <div className="cat" key={category.name}>
+          <div
+            className="cat"
+            key={category.name}
+            onClick={() => handleCategory(category.name)}
+          >
             <img src={category.icon_url} alt={category.name} />
             <span>{category.name}</span>
           </div>

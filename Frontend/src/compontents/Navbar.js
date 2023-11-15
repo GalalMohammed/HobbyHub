@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { AppBar, TextField, Typography } from "@mui/material";
+import { AppBar, Typography } from "@mui/material";
 import { Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 const Navbar = () => {
   const [username, setUsername] = useState("");
-  const namee = "user55";
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/user/")
       .then((res) => setUsername(res.data.username));
-    // .then((res) => console.log(username));
   }, []);
   return (
     <AppBar
@@ -37,7 +35,7 @@ const Navbar = () => {
             padding: "0 20px",
           }}
         >
-          <span style={{}}>Search ...</span>
+          <span>Search ...</span>
           <SearchIcon />
         </div>
         <Typography>Hello, {username}</Typography>

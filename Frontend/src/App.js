@@ -6,6 +6,8 @@ import Home from "./compontents/Home";
 import { Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Main from "./compontents/landing/Main";
+import Group from "./compontents/Group";
+import MainLayout from "./compontents/MainLayout";
 
 const theme = createTheme({
   palette: {
@@ -26,7 +28,10 @@ function App() {
           <Route path="/HobbyHub" element={<Main />} />
           <Route path="/HobbyHub/signin" element={<SignIn />} />
           <Route path="/HobbyHub/signup" element={<SignUp />} />
-          <Route path="/HobbyHub/home" element={<Home />} />
+          <Route path="/HobbyHub/main/*" element={<MainLayout />} />
+
+          {/* <Route path="/HobbyHub/home" element={<Home />} /> */}
+          {/* <Route path="/HobbyHub/groups/group/:groupId" element={<Group />} /> */}
         </Routes>
       </ThemeProvider>
     </div>

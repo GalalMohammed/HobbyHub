@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Box } from "@mui/material";
 
-const Hobbies = () => {
+const Hobbies = ({ category }) => {
   let [hobbies, setHobbies] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/categories/Art/hobbies/")
+      .get(`http://localhost:8000/api/categories/${category}/hobbies/`)
       .then((res) => setHobbies(res.data))
-      // .then((data) => {
-      //   setCategories(data);
-      // })
       .then((res) => console.log("hobbies", hobbies));
-  }, []);
+  }, [category]);
 
   return (
     <div className="hobbies">
