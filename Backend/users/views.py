@@ -69,6 +69,5 @@ def user(request):
     Returns:
         - A JSON response containing the current user's username.
     """
-    serializer = UserSerializer(request.user)
     return Response({"username": request.user.username})
     

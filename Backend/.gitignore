@@ -4,6 +4,8 @@ HobbyHub/Include
 HobbyHub/Lib
 HobbyHub/Scripts
 HobbyHub/pyvenv.cfg
+*/node_modules
+.env
 
 
 .vscode
