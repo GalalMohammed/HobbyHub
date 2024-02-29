@@ -10,14 +10,27 @@ import { toggleMessagesPane } from "../utils.js/chatHandlers";
 import { useFetchRecipient } from "../hooks/useFetchRecipient";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { ChatContext } from "../context/chatContext";
+import { getRequest } from "../utils.js/services";
+import { useState, useEffect, useContext } from "react";
+import moment from "moment";
 
 export default function ChatListItem(props) {
   const { chat, type, selectedChatId, setSelectedChat } = props;
-  const { createChat } = React.useContext(ChatContext);
+  const { createChat, newMessage } = useContext(ChatContext);
   const { user } = useAuthContext();
+  const [messages, setMessages] = useState([]);
   let { recipient } = useFetchRecipient(chat, user, type);
 
   const selected = selectedChatId === chat._id;
+
+  useEffect(() => {
+    const getChatMessages = async () => {
+      const res = await getRequest(`/api/messages/${chat?._id}`);
+      if (res.error) console.log(res.error);
+      setMessages(res);
+    };
+    getChatMessages();
+  }, [newMessage]);
 
   return (
     <React.Fragment>
@@ -67,7 +80,7 @@ export default function ChatListItem(props) {
                     textOverflow: "ellipsis",
                   }}
                 >
-                  messages
+                  {messages[messages.length - 1]?.text}
                 </Typography>
               )}
             </Box>
@@ -82,7 +95,7 @@ export default function ChatListItem(props) {
                 display={{ xs: "none", md: "block" }}
                 noWrap
               >
-                5 min ago
+                {moment(messages[messages.length - 1]?.createdAt).fromNow()}
               </Typography>
             </Box>
           </Stack>
