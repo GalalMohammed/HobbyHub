@@ -32,7 +32,7 @@ const Sidebar = () => {
     {
       text: "Chats",
       icon: <ChatIcon color="primary" />,
-      path: "/HobbyHub/main/home",
+      path: "/HobbyHub/main/chats",
     },
   ];
   return (

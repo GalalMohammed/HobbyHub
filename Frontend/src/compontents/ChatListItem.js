@@ -78,6 +78,7 @@ export default function ChatListItem(props) {
                     WebkitBoxOrient: "vertical",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
+                    width: "160px",
                   }}
                 >
                   {messages[messages.length - 1]?.text}

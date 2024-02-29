@@ -40,7 +40,7 @@ export default function MyMessages() {
             },
             transition: "transform 0.4s, width 0.4s",
             zIndex: 100,
-            width: "100%",
+            width: "350px",
             height: "calc(100dvh - 100px)",
 
             top: 52,
