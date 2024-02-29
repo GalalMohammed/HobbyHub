@@ -39,6 +39,15 @@ export const ChatContextProvider = ({ children, user }) => {
   }, [newMessage]);
 
   useEffect(() => {
+    if (!socket) return;
+    socket.on("getMessage", (message) => {
+      if (selectedChat?._id !== message.chatId) return;
+      setMessages((prev) => [...prev, message]);
+    });
+    return () => socket.off("getMessage");
+  }, [socket, selectedChat]);
+
+  useEffect(() => {
     const getUserChats = async () => {
       if (user?.userId) {
         setIsChatsLoading(true);
