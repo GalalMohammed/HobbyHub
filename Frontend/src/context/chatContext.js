@@ -9,6 +9,10 @@ export const ChatContextProvider = ({ children, user }) => {
   const [chatsError, setChatsError] = useState(null);
   const [selectedChat, setSelectedChat] = useState(null);
   const [potentialChats, setPotentialChats] = useState([]);
+  const [messages, setMessages] = useState(null);
+  const [isMessagesLoading, setIsMessagesLoading] = useState(false);
+  const [messagesError, setMessagesError] = useState(null);
+  const [newMessage, setNewMessage] = useState(null);
 
   useEffect(() => {
     const getUserChats = async () => {
@@ -54,6 +58,18 @@ export const ChatContextProvider = ({ children, user }) => {
     setChats((prev) => [...prev, res]);
   }, []);
 
+  useEffect(() => {
+    const getChatMessages = async () => {
+      setIsMessagesLoading(true);
+      setMessagesError(null);
+      const res = await getRequest(`/api/messages/${selectedChat?._id}`);
+      setIsMessagesLoading(false);
+      if (res.error) setMessagesError(res.error);
+      setMessages(res);
+    };
+    getChatMessages();
+  }, [selectedChat]);
+
   return (
     <ChatContext.Provider
       value={{
@@ -64,6 +80,7 @@ export const ChatContextProvider = ({ children, user }) => {
         setSelectedChat,
         potentialChats,
         createChat,
+        messages,
       }}
     >
       {children}
