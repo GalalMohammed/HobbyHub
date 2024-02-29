@@ -2,12 +2,11 @@ import "./App.css";
 import React from "react";
 import SignIn from "./compontents/SignIn";
 import SignUp from "./compontents/SignUp";
-import Home from "./compontents/Home";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Main from "./compontents/landing/Main";
-import Group from "./compontents/Group";
 import MainLayout from "./compontents/MainLayout";
+import { useAuthContext } from "./hooks/useAuthContext";
 
 // Change the default theme
 const theme = createTheme({
@@ -22,14 +21,24 @@ const theme = createTheme({
 });
 
 function App() {
+  const { user } = useAuthContext();
   return (
     <div>
       <ThemeProvider theme={theme}>
         <Routes>
           <Route path="/HobbyHub" element={<Main />} />
-          <Route path="/HobbyHub/signin" element={<SignIn />} />
-          <Route path="/HobbyHub/signup" element={<SignUp />} />
-          <Route path="/HobbyHub/main/*" element={<MainLayout />} />
+          <Route
+            path="/HobbyHub/signin"
+            element={!user ? <SignIn /> : <Navigate to="/HobbyHub/main/" />}
+          />
+          <Route
+            path="/HobbyHub/signup"
+            element={!user ? <SignUp /> : <Navigate to="/HobbyHub/main/" />}
+          />
+          <Route
+            path="/HobbyHub/main/*"
+            element={user ? <MainLayout /> : <Navigate to="/HobbyHub/signin" />}
+          />
         </Routes>
       </ThemeProvider>
     </div>

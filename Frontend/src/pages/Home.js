@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Categories from "./Categories";
-import Hobbies from "./ListHobbies";
-import Groups from "./Groups";
+import Categories from "../compontents/Categories";
+import Hobbies from "../compontents/ListHobbies";
+import Groups from "../compontents/Groups";
 import { Box } from "@mui/material";
 
 const Home = () => {
