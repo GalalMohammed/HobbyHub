@@ -8,7 +8,7 @@ import { Box } from "@mui/material/";
 import { Typography } from "@mui/material/";
 import { Container } from "@mui/material/";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import useSignup from "../hooks/useSignup";
 
 function Copyright(props) {
   return (
@@ -40,11 +40,11 @@ export default function SignUp() {
     email: false,
     password: false,
   });
+  const { signup, isLoading, error } = useSignup()
 
   // Handle form values and send register request
   const handleSubmit = async (event) => {
     event.preventDefault();
-    let status = 200;
 
     setCheckFormValues({
       username: false,
@@ -63,32 +63,8 @@ export default function SignUp() {
       setCheckFormValues({ ...checkFormValues, password: true });
     }
     console.log(formValues);
-    if (
-      formValues.username !== "" &&
-      formValues.email !== "" &&
-      formValues.password !== ""
-    ) {
-      const { data } = await axios
-        .post(
-          "http://localhost:8000/api/register/",
-          JSON.stringify({ ...formValues }),
-          {
-            headers: { "Content-Type": "application/json" },
-            withCredintials: true,
-          }
-        )
-        .catch(function (error) {
-          if (error.response) {
-            status = error.response.status;
-            console.log("status inside", status);
-          }
-        });
-      // Save the token and add it to request headers
-      localStorage.clear();
-      localStorage.setItem("token", data.token);
-      axios.defaults.headers.common["Authorization"] = `Token ${data["token"]}`;
-      nav("/HobbyHub/main/home");
-    }
+    await signup(formValues.username, formValues.email, formValues.password)
+
   };
 
   const handleFormValues = (e) => {
@@ -172,9 +148,11 @@ export default function SignUp() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={isLoading}
               >
                 Sign Up
               </Button>
+              {error && <div className="error">{error}</div>}
               <Grid container>
                 <Grid item>
                   <Button
@@ -203,7 +181,7 @@ export default function SignUp() {
         }}
       >
         <img
-          src="../HobbyHub/images/Making art-pana.png"
+          src="../PlayingMusic-bro.png"
           alt="loginPage"
           style={{ width: "300px" }}
         />

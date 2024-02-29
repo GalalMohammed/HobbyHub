@@ -8,7 +8,8 @@ import { Box } from "@mui/material/";
 import { Typography } from "@mui/material/";
 import { Container } from "@mui/material/";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import useLogin from "../hooks/useLogin";
+//import {group.png} from '../../public/images/group.png'
 
 function Copyright(props) {
   return (
@@ -30,21 +31,17 @@ function Copyright(props) {
 
 export default function SignIn() {
   const nav = useNavigate();
-  let status = 200;
   const [checkFormValues, setCheckFormValues] = React.useState({
     username: false,
     password: false,
   });
-  const [errorMessage, setErrorMessage] = React.useState("");
+  //const [errorMessage, setErrorMessage] = React.useState("");
+  const { login, error, isLoading } = useLogin();
 
   // Handle form values and send login request
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const signdata = {
-      username: formData.get("username"),
-      password: formData.get("password"),
-    };
 
     setCheckFormValues({
       username: false,
@@ -59,32 +56,10 @@ export default function SignIn() {
       setCheckFormValues({ ...checkFormValues, password: true });
     }
 
-    if (formData.get("username") !== "" && formData.get("password") !== "") {
-      const data = await axios
-        .post("http://localhost:8000/api/login/", signdata, {
-          headers: { "Content-Type": "application/json" },
-          withCredintials: true,
-        })
-        .catch(function (error) {
-          if (error.response) {
-            status = error.response.status;
-            console.log("status inside", status);
-          }
-        });
+    await login(formData.get("username"), formData.get("password"))
 
-      // Check if request is successful, save the token and add it to request headers
-      if (status === 200) {
-        localStorage.clear();
-        localStorage.setItem("token", data.data.token);
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Token ${data.data["token"]}`;
-        nav("/HobbyHub/main/home");
-      } else {
-        setErrorMessage("Invalid Username or Password!");
-      }
-    }
-  };
+  }
+
 
   return (
     <div className="wrapper" style={{ display: "flex" }}>
@@ -101,7 +76,8 @@ export default function SignIn() {
         }}
       >
         <img
-          src="../HobbyHub/images/Playing Music-bro.png"
+
+          src="../MakingArt-pana.png"
           alt="loginPage"
           style={{ width: "300px" }}
         />
@@ -136,13 +112,7 @@ export default function SignIn() {
             >
               Sign in
             </Typography>
-            {errorMessage !== "" ? (
-              <Typography color="error" mt={1}>
-                {errorMessage}
-              </Typography>
-            ) : (
-              ""
-            )}
+            {error && <div className="error">{error}</div>}
             <Box
               component="form"
               onSubmit={handleSubmit}
@@ -182,6 +152,7 @@ export default function SignIn() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={isLoading}
               >
                 Sign In
               </Button>
