@@ -8,7 +8,7 @@ import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import ChatListItem from "./ChatListItem";
 
 export default function ChatsPane(props) {
-  const { chats, selectedChatId, setSelectedChat } = props;
+  const { chats, potentialChats, selectedChatId, setSelectedChat } = props;
   const [isGroupChats, setIsGroupChats] = React.useState("false");
 
   console.log("isGroupChats", isGroupChats);
@@ -127,6 +127,16 @@ export default function ChatsPane(props) {
               key={chat._id}
               chat={chat}
               type="exist"
+              setSelectedChat={setSelectedChat}
+              selectedChatId={selectedChatId}
+            />
+          ))}
+        {potentialChats?.length > 0 &&
+          potentialChats?.map((pchat) => (
+            <ChatListItem
+              key={pchat._id}
+              chat={pchat}
+              type="potential"
               setSelectedChat={setSelectedChat}
               selectedChatId={selectedChatId}
             />

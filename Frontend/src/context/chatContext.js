@@ -8,6 +8,7 @@ export const ChatContextProvider = ({ children, user }) => {
   const [isChatsLoading, setIsChatsLoading] = useState(false);
   const [chatsError, setChatsError] = useState(null);
   const [selectedChat, setSelectedChat] = useState(null);
+  const [potentialChats, setPotentialChats] = useState([]);
 
   useEffect(() => {
     const getUserChats = async () => {
@@ -24,6 +25,26 @@ export const ChatContextProvider = ({ children, user }) => {
     getUserChats();
   }, [user]);
 
+  useEffect(() => {
+    const getUsers = async () => {
+      const res = await getRequest(`/api/users`);
+      if (res.error) return setChatsError(res.error);
+      const pChats = res?.users.filter((u) => {
+        let isChatCreated = false;
+        if (user?._id === u._id) return false;
+        if (chats) {
+          isChatCreated = chats?.some((chat) => {
+            return chat.members[0] === u._id || chat.members[1] === u._id;
+          });
+        }
+        return !isChatCreated;
+      });
+      console.log("pchats in context", pChats);
+      setPotentialChats(pChats);
+    };
+    getUsers();
+  }, [chats]);
+
   return (
     <ChatContext.Provider
       value={{
@@ -32,6 +53,7 @@ export const ChatContextProvider = ({ children, user }) => {
         chatsError,
         selectedChat,
         setSelectedChat,
+        potentialChats,
       }}
     >
       {children}
