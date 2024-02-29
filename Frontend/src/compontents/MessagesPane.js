@@ -8,13 +8,15 @@ import MessagesPaneHeader from "./MessagesPaneHeader";
 import { ChatContext } from "../context/chatContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useFetchRecipient } from "../hooks/useFetchRecipient";
+import MessageInput from "./MessagesInput";
 
 export default function MessagesPane(props) {
   const { chat } = props;
   const { user } = useAuthContext();
   let { recipient } = useFetchRecipient(chat, user);
 
-  const { messages } = React.useContext(ChatContext);
+  const { messages, sendNewMessage } = React.useContext(ChatContext);
+  const [textAreaValue, setTextAreaValue] = React.useState("");
 
   if (!recipient)
     return (
@@ -33,6 +35,7 @@ export default function MessagesPane(props) {
         },
         display: "flex",
         flexDirection: "column",
+        // backgroundColor: "white",
         marginLeft: "20px",
         backgroundColor: "#f2f2f2",
         borderRadius: "20px",
@@ -83,6 +86,11 @@ export default function MessagesPane(props) {
           })}
         </Stack>
       </Box>
+      <MessageInput
+        textAreaValue={textAreaValue}
+        setTextAreaValue={setTextAreaValue}
+        onSubmit={() => sendNewMessage(textAreaValue, user, chat._id)}
+      />
     </Sheet>
   );
 }

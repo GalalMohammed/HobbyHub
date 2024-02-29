@@ -70,6 +70,18 @@ export const ChatContextProvider = ({ children, user }) => {
     getChatMessages();
   }, [selectedChat]);
 
+  const sendNewMessage = useCallback(async (text, sender, currentChatId) => {
+    if (text) {
+      const res = await postRequest(
+        `/api/messages`,
+        JSON.stringify({ chatId: currentChatId, senderId: sender.userId, text })
+      );
+      if (res.error) setChatsError(res.error);
+      setNewMessage(res);
+      setMessages((prev) => [...prev, res]);
+    }
+  }, []);
+
   return (
     <ChatContext.Provider
       value={{
@@ -81,6 +93,7 @@ export const ChatContextProvider = ({ children, user }) => {
         potentialChats,
         createChat,
         messages,
+        sendNewMessage,
       }}
     >
       {children}
