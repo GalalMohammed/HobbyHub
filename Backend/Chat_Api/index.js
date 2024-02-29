@@ -45,7 +45,13 @@ app.get("/messages/:anotherClient", async (req, res) => {
       .sort({ createdAt: 1 })
       .then((messages) => {
         res.json(messages);
+      }).catch((e) => {
+        console.log("Error", e);
+        res.sendStatus(500);
       });
+  }).catch((e) => {
+    console.log("Error", e);
+    res.sendStatus(403);
   });
 });
 
@@ -65,14 +71,17 @@ app.get("/users", async (req, res) => {
             })
             .catch((e) => {
               console.log("Error", e);
+              res.sendStatus(500);
             });
         })
         .catch((e) => {
           console.log("Error", e);
+          res.sendStatus(500);
         });
     })
     .catch((e) => {
       console.log("Error", e);
+      res.status(403).sendStatus(403);
     });
 });
 
@@ -86,12 +95,9 @@ const wss = new ws.WebSocketServer({
 
 wss.on("connection", (connection, req) => {
   const token = req.headers?.authorization;
-  console.log(req.headers);
   if (token) {
-    console.log(`User ${token} connected`);
     getUserName(token).then((username) => {
       connection.username = username;
-      console.log(`User ${username} connected`);
       connection.on("message", async (message) => {
         try {
           const parsedMessage = JSON.parse(message);
