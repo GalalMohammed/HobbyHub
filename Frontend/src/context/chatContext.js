@@ -33,6 +33,12 @@ export const ChatContextProvider = ({ children, user }) => {
   }, [socket]);
 
   useEffect(() => {
+    if (!socket) return;
+    const recipientId = selectedChat?.members.find((id) => id !== user?.userId);
+    socket.emit("sendMessage", { ...newMessage, recipientId });
+  }, [newMessage]);
+
+  useEffect(() => {
     const getUserChats = async () => {
       if (user?.userId) {
         setIsChatsLoading(true);
