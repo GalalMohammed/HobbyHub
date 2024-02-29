@@ -16,10 +16,10 @@ import moment from "moment";
 
 export default function ChatListItem(props) {
   const { chat, type, selectedChatId, setSelectedChat } = props;
-  const { createChat, newMessage } = useContext(ChatContext);
+  const { createChat, newMessage, onlineUsers } = useContext(ChatContext);
   const { user } = useAuthContext();
   const [messages, setMessages] = useState([]);
-  let { recipient } = useFetchRecipient(chat, user, type);
+  let { recipient, recipientId } = useFetchRecipient(chat, user, type);
 
   const selected = selectedChatId === chat._id;
 
@@ -62,7 +62,7 @@ export default function ChatListItem(props) {
         >
           <Stack direction="row" spacing={1.5}>
             <AvatarWithStatus
-              online={true}
+              online={onlineUsers?.some((user) => user.userId === recipientId)}
               username={type === "exist" ? recipient?.username : chat.username}
             />
             <Box sx={{ flex: 1 }}>

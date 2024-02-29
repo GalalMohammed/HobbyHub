@@ -13,10 +13,12 @@ import MessageInput from "./MessagesInput";
 export default function MessagesPane(props) {
   const { chat } = props;
   const { user } = useAuthContext();
-  let { recipient } = useFetchRecipient(chat, user);
-
-  const { messages, sendNewMessage } = React.useContext(ChatContext);
+  let { recipient, recipientId } = useFetchRecipient(chat, user);
+  const { messages, sendNewMessage, onlineUsers } =
+    React.useContext(ChatContext);
   const [textAreaValue, setTextAreaValue] = React.useState("");
+
+  const online = onlineUsers?.some((user) => user.userId === recipientId);
 
   if (!recipient)
     return (
@@ -42,7 +44,7 @@ export default function MessagesPane(props) {
         boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
       }}
     >
-      <MessagesPaneHeader username={recipient?.username} online={true} />
+      <MessagesPaneHeader username={recipient?.username} online={online} />
       <Box
         sx={{
           display: "flex",
@@ -72,7 +74,7 @@ export default function MessagesPane(props) {
               >
                 {!isYou && (
                   <AvatarWithStatus
-                    online={true}
+                    online={online}
                     username={recipient?.username}
                   />
                 )}
