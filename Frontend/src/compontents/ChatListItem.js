@@ -9,9 +9,11 @@ import AvatarWithStatus from "./AvatarWithStatus";
 import { toggleMessagesPane } from "../utils.js/chatHandlers";
 import { useFetchRecipient } from "../hooks/useFetchRecipient";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { ChatContext } from "../context/chatContext";
 
 export default function ChatListItem(props) {
   const { chat, type, selectedChatId, setSelectedChat } = props;
+  const { createChat } = React.useContext(ChatContext);
   const { user } = useAuthContext();
   let { recipient } = useFetchRecipient(chat, user, type);
 
@@ -24,6 +26,10 @@ export default function ChatListItem(props) {
           onClick={() => {
             toggleMessagesPane();
             setSelectedChat(chat);
+            if (type === "potential") {
+              console.log("create a new chat");
+              createChat(user.userId, chat._id);
+            }
           }}
           selected={selected}
           sx={{
