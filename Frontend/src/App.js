@@ -7,6 +7,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Main from "./compontents/landing/Main";
 import MainLayout from "./compontents/MainLayout";
 import { useAuthContext } from "./hooks/useAuthContext";
+import { ChatContextProvider } from "./context/chatContext";
 
 // Change the default theme
 const theme = createTheme({
@@ -25,21 +26,25 @@ function App() {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <Routes>
-          <Route path="/HobbyHub" element={<Main />} />
-          <Route
-            path="/HobbyHub/signin"
-            element={!user ? <SignIn /> : <Navigate to="/HobbyHub/main/" />}
-          />
-          <Route
-            path="/HobbyHub/signup"
-            element={!user ? <SignUp /> : <Navigate to="/HobbyHub/main/" />}
-          />
-          <Route
-            path="/HobbyHub/main/*"
-            element={user ? <MainLayout /> : <Navigate to="/HobbyHub/signin" />}
-          />
-        </Routes>
+        <ChatContextProvider user={user}>
+          <Routes>
+            <Route path="/HobbyHub" element={<Main />} />
+            <Route
+              path="/HobbyHub/signin"
+              element={!user ? <SignIn /> : <Navigate to="/HobbyHub/main/" />}
+            />
+            <Route
+              path="/HobbyHub/signup"
+              element={!user ? <SignUp /> : <Navigate to="/HobbyHub/main/" />}
+            />
+            <Route
+              path="/HobbyHub/main/*"
+              element={
+                user ? <MainLayout /> : <Navigate to="/HobbyHub/signin" />
+              }
+            />
+          </Routes>
+        </ChatContextProvider>
       </ThemeProvider>
     </div>
   );
