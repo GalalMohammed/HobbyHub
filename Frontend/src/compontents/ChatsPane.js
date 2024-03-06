@@ -7,10 +7,10 @@ import List from "@mui/joy/List";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import ChatListItem from "./ChatListItem";
 import { ChatContext } from "../context/chatContext";
+import GroupChatListItem from "./GroupChatListItem";
 
 export default function ChatsPane(props) {
   const { chats, potentialChats, selectedChatId, setSelectedChat } = props;
-  const [isGroupChats, setIsGroupChats] = React.useState("false");
   const { chatType, setChatType } = React.useContext(ChatContext);
 
   return (
@@ -122,9 +122,10 @@ export default function ChatsPane(props) {
         }}
       >
         {chats?.length > 0 &&
+          chatType === "private" &&
           chats?.map((chat) => (
             <ChatListItem
-              key={chat._id}
+              key={chat.id}
               chat={chat}
               type="exist"
               setSelectedChat={setSelectedChat}
@@ -132,9 +133,32 @@ export default function ChatsPane(props) {
             />
           ))}
         {potentialChats?.length > 0 &&
+          chatType === "private" &&
           potentialChats?.map((pchat) => (
             <ChatListItem
-              key={pchat._id}
+              key={pchat.id}
+              chat={pchat}
+              type="potential"
+              setSelectedChat={setSelectedChat}
+              selectedChatId={selectedChatId}
+            />
+          ))}
+        {chats?.length > 0 &&
+          chatType === "group" &&
+          chats?.map((chat) => (
+            <GroupChatListItem
+              key={chat.id}
+              chat={chat}
+              type="exist"
+              setSelectedChat={setSelectedChat}
+              selectedChatId={selectedChatId}
+            />
+          ))}
+        {potentialChats?.length > 0 &&
+          chatType === "group" &&
+          potentialChats?.map((pchat) => (
+            <GroupChatListItem
+              key={pchat.id}
               chat={pchat}
               type="potential"
               setSelectedChat={setSelectedChat}
