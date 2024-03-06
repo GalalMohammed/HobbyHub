@@ -6,12 +6,12 @@ import { Box, Button, Chip, IconButton, ToggleButtonGroup } from "@mui/joy";
 import List from "@mui/joy/List";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import ChatListItem from "./ChatListItem";
+import { ChatContext } from "../context/chatContext";
 
 export default function ChatsPane(props) {
   const { chats, potentialChats, selectedChatId, setSelectedChat } = props;
   const [isGroupChats, setIsGroupChats] = React.useState("false");
-
-  console.log("isGroupChats", isGroupChats);
+  const { chatType, setChatType } = React.useContext(ChatContext);
 
   return (
     <Sheet
@@ -77,8 +77,8 @@ export default function ChatsPane(props) {
               width: "100%",
               borderRadius: "md",
             }}
-            value={isGroupChats}
-            onChange={(event, groupChats) => {
+            value={chatType}
+            onChange={(event, type) => {
               event.target.parentNode.firstChild.classList.remove(
                 "chatTypeBtn"
               );
@@ -89,7 +89,7 @@ export default function ChatsPane(props) {
               event.target.parentNode.firstChild.style.color = "black";
               event.target.parentNode.lastChild.style.color = "black";
               event.target.style.color = "white";
-              setIsGroupChats(groupChats);
+              setChatType(type);
             }}
             aria-label="text alignment"
           >
@@ -98,7 +98,7 @@ export default function ChatsPane(props) {
                 width: "100%",
                 backgroundColor: "#d0242e",
               }}
-              value="false"
+              value="private"
               className="chatTypeBtn"
             >
               Chats
@@ -107,7 +107,7 @@ export default function ChatsPane(props) {
               sx={{
                 width: "100%",
               }}
-              value="true"
+              value="group"
             >
               Groups
             </Button>

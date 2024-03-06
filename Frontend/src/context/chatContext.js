@@ -16,6 +16,7 @@ export const ChatContextProvider = ({ children, user }) => {
   const [newMessage, setNewMessage] = useState(null);
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [chatType, setChatType] = useState("private");
 
   useEffect(() => {
     const socket = io("http://localhost:5000");
@@ -52,11 +53,17 @@ export const ChatContextProvider = ({ children, user }) => {
       if (user?.userId) {
         setIsChatsLoading(true);
         setChatsError(null);
-        const res = await getRequest(`/api/chats/${user.userId}`);
+        const res = await getRequest(`/api/chats/${chatType}/${user.userId}`);
         setIsChatsLoading(false);
         if (res.error) setChatsError(res.error);
-        setChats(res);
-        if (res[0]) setSelectedChat(res[0]);
+        const sortedChats = res?.sort(
+          (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+        );
+        setChats(sortedChats);
+        if (sortedChats[0]) {
+          setSelectedChat(sortedChats[0]);
+        }
+        console.log("chats", sortedChats);
       }
     };
     getUserChats();
@@ -64,20 +71,21 @@ export const ChatContextProvider = ({ children, user }) => {
 
   useEffect(() => {
     const getUsers = async () => {
-      const res = await getRequest(`/api/users`);
-      if (res.error) return setChatsError(res.error);
-      const pChats = res?.users.filter((u) => {
-        let isChatCreated = false;
-        if (user?._id === u._id) return false;
-        if (chats) {
-          isChatCreated = chats?.some((chat) => {
-            return chat.members[0] === u._id || chat.members[1] === u._id;
-          });
-        }
-        return !isChatCreated;
-      });
-      console.log("pchats in context", pChats);
-      setPotentialChats(pChats);
+      if (user) {
+        const res = await getRequest(`/api/users`);
+        if (res.error) return setChatsError(res.error);
+        const pChats = res?.users.filter((u) => {
+          let isChatCreated = false;
+          if (user?._id === u._id) return false;
+          if (chats) {
+            isChatCreated = chats?.some((chat) => {
+              return chat.members[0] === u._id || chat.members[1] === u._id;
+            });
+          }
+          return !isChatCreated;
+        });
+        setPotentialChats(pChats);
+      }
     };
     getUsers();
   }, [chats]);
@@ -129,6 +137,8 @@ export const ChatContextProvider = ({ children, user }) => {
         sendNewMessage,
         newMessage,
         onlineUsers,
+        chatType,
+        setChatType,
       }}
     >
       {children}
