@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializer import UserSerializer
+from .serializer import UserSerializer, UsersSerializer, HobbyUserSerializer
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -35,7 +35,7 @@ def register(request):
         hobbyuser = HobbyUser(user=user)
         hobbyuser.save()
         token = Token.objects.create(user=user)
-        return Response({"token": token.key})
+        return Response({"userId": hobbyuser.id, "username": user.username, "token": token.key})
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -54,8 +54,7 @@ def login(request):
     if not user.check_password(request.data['password']):
         return Response("user not found", status=status.HTTP_404_NOT_FOUND)
     token, created = Token.objects.get_or_create(user=user)
-    serializer = UserSerializer(user)    
-    return Response({"token": token.key, "user": serializer.data})
+    return Response({"userId": user.hobby_user.id, "username": user.username, "token": token.key})
 
 
 @api_view(['GET'])
@@ -70,4 +69,37 @@ def user(request):
         - A JSON response containing the current user's username.
     """
     return Response({"username": request.user.username})
+
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def getUsers(request):
+    """
+    Retrieve a list of all users.
+
+    Parameters:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        Response: The HTTP response object containing the serialized data of all users.
+    """
+    return Response(HobbyUserSerializer(HobbyUser.objects.all(), many=True).data)
+
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def findUser(request, id):
+    """
+    Retrieves a user based on the specified user ID.
+    Parameters:
+        request (Request): The HTTP request object.
+        id (int): The ID of the user.
+    Returns:
+        Response: A response containing a serialized user.
+    """
+    hobby_user = get_object_or_404(HobbyUser, id=id)
+    # return Response(HobbyUserSerializer(user, context={'request': request}).data)
+    return Response({"username": hobby_user.user.username})
     
