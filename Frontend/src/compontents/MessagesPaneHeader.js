@@ -12,7 +12,7 @@ import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import { toggleMessagesPane } from "../utils.js/chatHandlers";
 
 export default function MessagesPaneHeader(props) {
-  const { username, online } = props;
+  const { username, online, src, groupCat } = props;
   return (
     <Stack
       direction="row"
@@ -39,9 +39,13 @@ export default function MessagesPaneHeader(props) {
         >
           <ArrowBackIosNewRoundedIcon />
         </IconButton>
-        <Avatar color="danger" size="lg">
-          {username && username[0].toUpperCase()}
-        </Avatar>
+        {src ? (
+          <Avatar size="lg" src={src} />
+        ) : (
+          <Avatar color="danger" size="lg">
+            {username && username[0].toUpperCase()}
+          </Avatar>
+        )}
         <div>
           <Typography
             fontWeight="lg"
@@ -69,7 +73,9 @@ export default function MessagesPaneHeader(props) {
           >
             {username}
           </Typography>
-          <Typography level="body-sm">{username}</Typography>
+          <Typography level="body-sm">
+            {groupCat ? groupCat : username}
+          </Typography>
         </div>
       </Stack>
       <Stack spacing={1} direction="row" alignItems="center">

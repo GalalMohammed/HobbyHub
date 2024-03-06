@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getRequest } from "../utils.js/services";
+import { ChatContext } from "../context/chatContext";
 
 export let useFetchRecipient = (chat, user, type = "exist") => {
   let [recipient, setRecipient] = useState(null);
   const [error, setError] = useState(null);
+  const { chatType } = useContext(ChatContext);
 
   const recipientId =
-    type === "exist" ? chat?.members.find((id) => id !== user.userId) : null;
+    type === "exist" && chatType !== "group"
+      ? chat?.members.find((id) => id != user.userId)
+      : null;
 
   useEffect(() => {
     const getUser = async () => {

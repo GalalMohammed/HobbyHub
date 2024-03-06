@@ -9,18 +9,22 @@ import { ChatContext } from "../context/chatContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useFetchRecipient } from "../hooks/useFetchRecipient";
 import MessageInput from "./MessagesInput";
+import MessagesList from "./MessagesList";
+import { useFetchGroup } from "../hooks/useFetchGroup";
 
 export default function MessagesPane(props) {
-  const { chat } = props;
+  const { selectedChat, chatType } = props;
   const { user } = useAuthContext();
-  let { recipient, recipientId } = useFetchRecipient(chat, user);
+  let { recipient, recipientId } = useFetchRecipient(selectedChat, user);
+  let { group } = useFetchGroup(selectedChat._id);
+
   const { messages, sendNewMessage, onlineUsers } =
     React.useContext(ChatContext);
   const [textAreaValue, setTextAreaValue] = React.useState("");
 
   const online = onlineUsers?.some((user) => user.userId === recipientId);
 
-  if (!recipient)
+  if (!recipient && !group)
     return (
       <div style={{ textAlign: "center", width: "100%" }}>
         Select a conversation
@@ -44,7 +48,12 @@ export default function MessagesPane(props) {
         boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
       }}
     >
-      <MessagesPaneHeader username={recipient?.username} online={online} />
+      <MessagesPaneHeader
+        username={chatType === "private" ? recipient?.username : group?.name}
+        src={chatType === "group" && group?.icon_url}
+        online={online}
+        groupCat={chatType === "group" && group?.category}
+      />
       <Box
         sx={{
           display: "flex",
@@ -63,35 +72,22 @@ export default function MessagesPane(props) {
             borderStartEndRadius: "20px",
           }}
         >
-          {messages?.map((message, index) => {
-            const isYou = message?.senderId === user.userId;
-            return (
-              <Stack
-                key={index}
-                direction="row"
-                spacing={2}
-                flexDirection={isYou ? "row-reverse" : "row"}
-              >
-                {!isYou && (
-                  <AvatarWithStatus
-                    online={online}
-                    username={recipient?.username}
-                  />
-                )}
-                <ChatBubble
-                  variant={isYou ? "sent" : "received"}
-                  name={isYou ? user.username : recipient?.username}
-                  {...message}
-                />
-              </Stack>
-            );
-          })}
+          {messages?.map((message, index) => (
+            <MessagesList
+              key={index}
+              message={message}
+              index={index}
+              recipient={recipient}
+              group={group}
+              online={online}
+            />
+          ))}
         </Stack>
       </Box>
       <MessageInput
         textAreaValue={textAreaValue}
         setTextAreaValue={setTextAreaValue}
-        onSubmit={() => sendNewMessage(textAreaValue, user, chat._id)}
+        onSubmit={() => sendNewMessage(textAreaValue, user, selectedChat._id)}
       />
     </Sheet>
   );

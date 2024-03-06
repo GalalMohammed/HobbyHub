@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import { AppBar, Typography } from "@mui/material";
 import { Toolbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 const Navbar = () => {
-  const [username, setUsername] = useState("");
-
-  // Get the user name
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/user/")
-      .then((res) => setUsername(res.data.username));
-  }, []);
   return (
     <AppBar
       position="fixed"
@@ -40,7 +31,9 @@ const Navbar = () => {
           <span>Search ...</span>
           <SearchIcon />
         </div>
-        <Typography>Hello, {username}</Typography>
+        <Typography>
+          Hello, {JSON.parse(localStorage.getItem("user")).username}
+        </Typography>
       </Toolbar>
     </AppBar>
   );

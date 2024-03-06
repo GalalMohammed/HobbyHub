@@ -3,7 +3,7 @@ import Badge from "@mui/joy/Badge";
 import Avatar from "@mui/joy/Avatar";
 
 export default function AvatarWithStatus(props) {
-  const { online, username } = props;
+  const { online, username, src } = props;
   return (
     <div>
       <Badge
@@ -13,9 +13,13 @@ export default function AvatarWithStatus(props) {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         badgeInset="4px 4px"
       >
-        <Avatar color="danger" size="sm">
-          {username && username[0].toUpperCase()}
-        </Avatar>
+        {src ? (
+          <Avatar size="sm" src={src} />
+        ) : (
+          <Avatar color="danger" size="sm">
+            {username && username[0].toUpperCase()}
+          </Avatar>
+        )}
       </Badge>
     </div>
   );
