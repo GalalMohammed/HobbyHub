@@ -67,19 +67,22 @@ export const ChatContextProvider = ({ children, user }) => {
       }
     };
     getUserChats();
-  }, [user]);
+  }, [user, chatType]);
 
   useEffect(() => {
     const getUsers = async () => {
-      if (user) {
-        const res = await getRequest(`/api/users`);
+      if (user && chatType === "private") {
+        const res = await getRequest(`http://127.0.0.1:8000/api/users/`);
+        console.log("list users", res);
         if (res.error) return setChatsError(res.error);
-        const pChats = res?.users.filter((u) => {
+        const pChats = res?.filter((u) => {
           let isChatCreated = false;
-          if (user?._id === u._id) return false;
+          if (user?.userId == u.id) {
+            return false;
+          }
           if (chats) {
             isChatCreated = chats?.some((chat) => {
-              return chat.members[0] === u._id || chat.members[1] === u._id;
+              return chat.members[0] == u.id || chat.members[1] == u.id;
             });
           }
           return !isChatCreated;
@@ -90,6 +93,20 @@ export const ChatContextProvider = ({ children, user }) => {
     getUsers();
   }, [chats]);
 
+  useEffect(() => {
+    setChats((prevChats) => {
+      const updatedChats = prevChats?.map((chat) => {
+        if (chat._id === selectedChat._id) {
+          return { ...chat, updatedAt: new Date().toISOString() }; // Update the selected chat's updatedAt property
+        }
+        return chat;
+      });
+      return updatedChats?.sort(
+        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+      ); // Sort the updated chats
+    });
+  }, [newMessage]);
+
   const createChat = useCallback(async (firstId, secondId) => {
     const res = await postRequest(
       `/api/chats`,
@@ -98,6 +115,44 @@ export const ChatContextProvider = ({ children, user }) => {
     if (res.error) setChatsError(res.error);
     setChats((prev) => [...prev, res]);
   }, []);
+
+  const createGroupChat = useCallback(async (groupId, members) => {
+    if (chatType === "group") {
+      const res = await postRequest(
+        `/api/chats/group`,
+        JSON.stringify({ groupId, members })
+      );
+      if (res.error) setChatsError(res.error);
+      setChats((prev) => [...prev, res]);
+      setSelectedChat(res);
+      console.log("created chat: ", res);
+    }
+  }, []);
+
+  useEffect(() => {
+    const getGroups = async () => {
+      if (user && chatType === "group") {
+        const res = await getRequest(
+          `http://127.0.0.1:8000/api/groups/user_groups/`
+        );
+        if (res.error) return setChatsError(res.error);
+        console.log("groups", res);
+        const groups = res?.filter((g) => {
+          let isChatCreated = false;
+          if (chats) {
+            console.log("chat filter", chats);
+            isChatCreated = chats?.some((chat) => {
+              return chat.type === "group" && chat._id[0] == g.id;
+            });
+          }
+          return !isChatCreated;
+        });
+        setPotentialChats(groups);
+        console.log("pgchats", groups);
+      }
+    };
+    getGroups();
+  }, [chats]);
 
   useEffect(() => {
     const getChatMessages = async () => {
@@ -139,6 +194,7 @@ export const ChatContextProvider = ({ children, user }) => {
         onlineUsers,
         chatType,
         setChatType,
+        createGroupChat,
       }}
     >
       {children}
