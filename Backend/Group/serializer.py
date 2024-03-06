@@ -12,9 +12,25 @@ class GroupSerializer(serializers.ModelSerializer):
 
     Serializes Group objects with specified fields.
     """
+    icon_url = serializers.SerializerMethodField()
     class Meta:
         model = Group
-        fields = ['id', 'name', 'description', 'icon']
+        fields = ['id', 'name', 'description', 'icon_url', 'members']
+
+    def get_icon_url(self, obj):
+        """
+        Returns the URL of the icon associated with the given object.
+
+        Parameters:
+            obj (Object): The object for which to retrieve the icon URL.
+
+        Returns:
+            str or None: The URL of the icon if it exists, None otherwise.
+        """
+        if obj.icon:
+            return f"http://127.0.0.1:8000{obj.icon.url}"
+        else:
+            return None
 
 class UserGroupSerializer(serializers.Serializer):
     """
@@ -54,7 +70,7 @@ class UserGroupSerializer(serializers.Serializer):
             str or None: The URL of the icon if it exists, None otherwise.
         """
         if obj.icon:
-            return f"http://localhost:8000{obj.icon.url}"
+            return f"http://127.0.0.1:8000{obj.icon.url}"
         else:
             return None
         
@@ -69,7 +85,7 @@ class UserGroupSerializer(serializers.Serializer):
             str or None: The URL of the background image if it exists, or None if it doesn't.
         """
         if obj.backGround:
-            return f"http://localhost:8000{obj.backGround.url}"
+            return f"http://127.0.0.1:8000{obj.backGround.url}"
         else:
             return None
     
@@ -117,7 +133,7 @@ class RetrivePostSerializer(serializers.ModelSerializer):
             str or None: The URL of the image if it exists, or None if it doesn't.
         """
         if obj.image:
-            return f"http://localhost:8000{obj.image.url}"
+            return f"http://127.0.0.1:8000{obj.image.url}"
         else:
             return None
 
