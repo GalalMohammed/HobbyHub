@@ -8,5 +8,6 @@ urlpatterns = [
     path('groups/<int:group_id>/leave/', views.leaveGroup),
     path('groups/<int:group_id>/post/', views.createPost),
     path('groups/<int:group_id>/posts/', views.getPosts),
+    path('groups/user_groups/', views.user_groups),
     path('posts/<int:post_id>/comment/', views.addComment),
 ]

@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Group, Post, Comment
 from Hobby.models import Category
-from .serializer import UserGroupSerializer, RetrivePostSerializer, RetriveCommentSerializer, CreatePostSerializer, AddCommentSerializer
+from .serializer import GroupSerializer, UserGroupSerializer, RetrivePostSerializer, RetriveCommentSerializer, CreatePostSerializer, AddCommentSerializer
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -43,6 +43,15 @@ def getGroup(request, group_id):
     """
     group = get_object_or_404(Group, id=group_id)
     return Response(UserGroupSerializer(group, context={'request': request}).data)
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def user_groups(request):
+    user = request.user
+    groups = Group.objects.filter(members__user=user)
+    #data = [{'name': group.name, 'description': group.description} for group in groups]
+    return Response(GroupSerializer(groups, many=True, context={'request': request}).data)
 
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
