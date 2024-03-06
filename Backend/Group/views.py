@@ -50,7 +50,6 @@ def getGroup(request, group_id):
 def user_groups(request):
     user = request.user
     groups = Group.objects.filter(members__user=user)
-    #data = [{'name': group.name, 'description': group.description} for group in groups]
     return Response(GroupSerializer(groups, many=True, context={'request': request}).data)
 
 @api_view(['POST'])

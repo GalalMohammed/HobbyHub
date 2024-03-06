@@ -9,6 +9,7 @@ const socket = require("socket.io");
 const request = require("request");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+const { group } = require("console");
 require("dotenv").config();
 
 app.use(
@@ -37,6 +38,38 @@ function isAuthorized(token) {
   });
 }
 
+function getUserGroups(userId, token) {
+  return new Promise((resolve, reject) => {
+    request.get(
+      "http://127.0.0.1:8000/api/groups/user_groups/",
+      { headers: { Authorization: token } },
+      (_err, res, body) => {
+        if (res.statusCode === 200) {
+          resolve(JSON.parse(body));
+        } else {
+          reject(res.statusCode);
+        }
+      }
+    )
+  })
+}
+
+function getGroupName(groupId, token) {
+  return new Promise((resolve, reject) => {
+    request.get(
+      `http://127.0.0.1:8000/api/groups/${groupId}/`,
+      { headers: { Authorization: token } },
+      (_err, res, body) => {
+        if (res.statusCode === 200) {
+          resolve(JSON.parse(body.name));
+        } else {
+          reject(res.statusCode);
+        }
+      }
+    )
+  })
+}
+
 app.use("/api/chats", require("./routes/chatRoutes"));
 app.use("/api/messages", require("./routes/messageRoute"));
 
@@ -58,21 +91,27 @@ const io = new Server(httpServer, { cors: "http://localhost:3000" });
 let onlineUsers = [];
 
 io.on("connection", (socket, req) => {
-  console.log(socket.id + " connected");
-  socket.on("addNewUser", (userId) => {
+  socket.on("addNewUser", (userId, token) => {
     !onlineUsers.some((user) => user.userId === userId) &&
       onlineUsers.push({
         userId,
         socketId: socket.id,
       });
-
-    console.log("onlineU", onlineUsers);
-    io.emit("getOnlineUsers", onlineUsers); //send users
+      getUserGroups(userId, token).then((groups) => {
+        groups.forEach((group) => {
+          socket.join(group.name);
+        });
+      });
+    io.emit("getOnlineUsers", onlineUsers);
   });
   socket.on("sendMessage", (message) => {
     const user = onlineUsers.find((u) => u.userId === message.recipientId);
     console.log("Sending to ", user);
     if (user) io.to(user.socketId).emit("getMessage", message);
+  });
+  socket.on("sendGroupMessage", (message, groupId, token) => {
+    const group = getGroupName(groupId, token);
+    io.broadcast.to(group).emit("getMessage", message);
   });
   socket.on("disconnect", () => {
     onlineUsers.filter((user) => user.socketId !== socket.id);
