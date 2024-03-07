@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { getRequest } from "../utils.js/services";
+import { getRequest } from "../utils/services";
 import { ChatContext } from "../context/chatContext";
 
 export let useFetchRecipient = (chat, user, type = "exist") => {
@@ -15,8 +15,9 @@ export let useFetchRecipient = (chat, user, type = "exist") => {
   useEffect(() => {
     const getUser = async () => {
       if (!recipientId) return null;
-      const res = await getRequest(`/api/users/find/${recipientId}`);
-      console.log("rec", res);
+      const res = await getRequest(
+        `http://127.0.0.1:8000/api/users/${recipientId}`
+      );
       if (res.error) {
         console.log("error");
         return setError(res.error);

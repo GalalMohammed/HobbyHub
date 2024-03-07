@@ -10,7 +10,6 @@ import FormatItalicRoundedIcon from "@mui/icons-material/FormatItalicRounded";
 import StrikethroughSRoundedIcon from "@mui/icons-material/StrikethroughSRounded";
 import FormatListBulletedRoundedIcon from "@mui/icons-material/FormatListBulletedRounded";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
-import InputEmoji from "react-input-emoji";
 
 export default function MessageInput(props) {
   const { textAreaValue, setTextAreaValue, onSubmit } = props;

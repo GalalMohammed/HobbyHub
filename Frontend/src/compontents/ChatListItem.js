@@ -5,32 +5,36 @@ import ListItem from "@mui/joy/ListItem";
 import ListItemButton from "@mui/joy/ListItemButton";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
+import CircleIcon from "@mui/icons-material/Circle";
 import AvatarWithStatus from "./AvatarWithStatus";
-import { toggleMessagesPane } from "../utils.js/chatHandlers";
+import { toggleMessagesPane } from "../utils/chatHandlers";
 import { useFetchRecipient } from "../hooks/useFetchRecipient";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useState, useEffect } from "react";
+import { getRequest } from "../utils/services";
 import { ChatContext } from "../context/chatContext";
-import { getRequest } from "../utils.js/services";
-import { useState, useEffect, useContext } from "react";
 import moment from "moment";
 
 export default function ChatListItem(props) {
-  const { chat, type, selectedChatId, setSelectedChat } = props;
-  const { createChat, newMessage, onlineUsers } = useContext(ChatContext);
+  let { chat, type, selectedChatId, setSelectedChat } = props;
+  const { createChat, onlineUsers, newMessage, chats, messages } =
+    React.useContext(ChatContext);
+  const [currentMessages, setCurrentMessages] = useState([]);
   const { user } = useAuthContext();
-  const [messages, setMessages] = useState([]);
   let { recipient, recipientId } = useFetchRecipient(chat, user, type);
 
   const selected = selectedChatId === chat._id;
 
   useEffect(() => {
     const getChatMessages = async () => {
-      const res = await getRequest(`/api/messages/${chat?._id}`);
-      if (res.error) console.log(res.error);
-      setMessages(res);
+      if (type === "exist") {
+        const res = await getRequest(`/api/messages/${chat?._id}`);
+        if (res.error) console.log(res.error);
+        setCurrentMessages(res);
+      }
     };
     getChatMessages();
-  }, [newMessage]);
+  }, [newMessage, chats, messages]);
 
   return (
     <React.Fragment>
@@ -38,17 +42,17 @@ export default function ChatListItem(props) {
         <ListItemButton
           onClick={() => {
             toggleMessagesPane();
-            setSelectedChat(chat);
             if (type === "potential") {
-              console.log("create a new chat");
-              createChat(user.userId, chat._id);
-            }
+              createChat(user.userId, chat.id);
+            } else setSelectedChat(chat);
           }}
           selected={selected}
           sx={{
             flexDirection: "column",
             alignItems: "initial",
             gap: 1,
+            // backgroundColor: "#f6d3d5 !important",
+
             "&.Mui-selected": {
               backgroundColor: "#f6d3d5",
             },
@@ -62,12 +66,12 @@ export default function ChatListItem(props) {
         >
           <Stack direction="row" spacing={1.5}>
             <AvatarWithStatus
-              online={onlineUsers?.some((user) => user.userId === recipientId)}
-              username={type === "exist" ? recipient?.username : chat.username}
+              online={onlineUsers?.some((user) => user.userId == recipientId)}
+              username={type === "exist" ? recipient?.username : chat.user}
             />
-            <Box sx={{ flex: 1 }}>
+            <Box sx={{ flex: 1, width: "20px" }}>
               <Typography level="title-sm">
-                {type === "exist" ? recipient?.username : chat.username}
+                {type === "exist" ? recipient?.username : chat.user}
               </Typography>
               {type === "exist" && (
                 <Typography
@@ -81,7 +85,7 @@ export default function ChatListItem(props) {
                     width: "160px",
                   }}
                 >
-                  {messages[messages.length - 1]?.text}
+                  {currentMessages[currentMessages.length - 1]?.text}
                 </Typography>
               )}
             </Box>
@@ -91,12 +95,18 @@ export default function ChatListItem(props) {
                 textAlign: "right",
               }}
             >
+              {/* {messages[0].unread && (
+                <CircleIcon sx={{ fontSize: 12 }} color="primary" />
+              )} */}
               <Typography
                 level="body-xs"
                 display={{ xs: "none", md: "block" }}
                 noWrap
               >
-                {moment(messages[messages.length - 1]?.createdAt).fromNow()}
+                {currentMessages.length > 0 &&
+                  moment(
+                    currentMessages[currentMessages.length - 1]?.createdAt
+                  ).fromNow()}
               </Typography>
             </Box>
           </Stack>

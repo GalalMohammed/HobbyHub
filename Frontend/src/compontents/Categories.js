@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container } from "@mui/material";
+import { getRequest } from "../utils/services";
 
 const Categories = ({ handleCategory }) => {
   let [categories, setCategories] = useState([]);
   // Fetch categories on component mount
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/categories/")
-      .then((res) => setCategories(res.data));
+    const getCategories = async () => {
+      const res = await getRequest(`http://127.0.0.1:8000/api/categories/`);
+      if (res.error) console.log(res.error);
+      setCategories(res);
+    };
+    getCategories();
   }, []);
 
   // Handle categories slider

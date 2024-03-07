@@ -41,6 +41,7 @@ export default function MyMessages() {
             transition: "transform 0.4s, width 0.4s",
             zIndex: 100,
             width: "350px",
+            overflow: "hidden",
             height: "calc(100dvh - 100px)",
 
             top: 52,
@@ -52,11 +53,11 @@ export default function MyMessages() {
             chats={chats}
             potentialChats={potentialChats}
             isChatsLoading={isChatsLoading}
-            selectedChatId={selectedChat?._id}
+            selectedChatId={selectedChat?._id || selectedChat?.id}
             setSelectedChat={setSelectedChat}
           />
         </Sheet>
-        <MessagesPane chat={selectedChat} />
+        <MessagesPane />
       </Sheet>
     </CssVarsProvider>
   );

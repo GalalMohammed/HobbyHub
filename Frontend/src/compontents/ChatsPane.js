@@ -6,8 +6,8 @@ import { Box, Button, Chip, IconButton, ToggleButtonGroup } from "@mui/joy";
 import List from "@mui/joy/List";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import ChatListItem from "./ChatListItem";
-import { ChatContext } from "../context/chatContext";
 import GroupChatListItem from "./GroupChatListItem";
+import { ChatContext } from "../context/chatContext";
 
 export default function ChatsPane(props) {
   const { chats, potentialChats, selectedChatId, setSelectedChat } = props;
@@ -90,6 +90,10 @@ export default function ChatsPane(props) {
               event.target.parentNode.lastChild.style.color = "black";
               event.target.style.color = "white";
               setChatType(type);
+              // if (type === "group") {
+              //   console.log("gchats", type);
+              //   getGroups();
+              // }
             }}
             aria-label="text alignment"
           >

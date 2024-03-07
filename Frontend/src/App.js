@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
-import SignIn from "./compontents/SignIn";
-import SignUp from "./compontents/SignUp";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Main from "./compontents/landing/Main";
@@ -31,11 +31,15 @@ function App() {
             <Route path="/HobbyHub" element={<Main />} />
             <Route
               path="/HobbyHub/signin"
-              element={!user ? <SignIn /> : <Navigate to="/HobbyHub/main/" />}
+              element={
+                !user ? <SignIn /> : <Navigate to="/HobbyHub/main/home" />
+              }
             />
             <Route
               path="/HobbyHub/signup"
-              element={!user ? <SignUp /> : <Navigate to="/HobbyHub/main/" />}
+              element={
+                !user ? <SignUp /> : <Navigate to="/HobbyHub/main/home" />
+              }
             />
             <Route
               path="/HobbyHub/main/*"

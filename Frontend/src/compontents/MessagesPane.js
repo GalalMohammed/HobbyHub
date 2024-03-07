@@ -4,25 +4,25 @@ import Sheet from "@mui/joy/Sheet";
 import Stack from "@mui/joy/Stack";
 import AvatarWithStatus from "./AvatarWithStatus";
 import ChatBubble from "./ChatBubble";
+//import MessageInput from "./MessageInput";
 import MessagesPaneHeader from "./MessagesPaneHeader";
 import { ChatContext } from "../context/chatContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useFetchRecipient } from "../hooks/useFetchRecipient";
 import MessageInput from "./MessagesInput";
-import MessagesList from "./MessagesList";
 import { useFetchGroup } from "../hooks/useFetchGroup";
+import { getRequest } from "../utils/services";
+import MessagesList from "./MessagesList";
 
 export default function MessagesPane(props) {
-  const { selectedChat, chatType } = props;
+  const { selectedChat, chatType } = React.useContext(ChatContext);
   const { user } = useAuthContext();
   let { recipient, recipientId } = useFetchRecipient(selectedChat, user);
-  let { group } = useFetchGroup(selectedChat._id);
-
+  let { group } = useFetchGroup(selectedChat?._id);
   const { messages, sendNewMessage, onlineUsers } =
     React.useContext(ChatContext);
   const [textAreaValue, setTextAreaValue] = React.useState("");
-
-  const online = onlineUsers?.some((user) => user.userId === recipientId);
+  const online = onlineUsers?.some((user) => user.userId == recipientId);
 
   if (!recipient && !group)
     return (
@@ -41,7 +41,6 @@ export default function MessagesPane(props) {
         },
         display: "flex",
         flexDirection: "column",
-        // backgroundColor: "white",
         marginLeft: "20px",
         backgroundColor: "#f2f2f2",
         borderRadius: "20px",

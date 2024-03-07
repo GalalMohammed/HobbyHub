@@ -14,6 +14,7 @@ export let useFetchGroup = (groupId, user, type = "exist") => {
       const res = await getRequest(
         `http://127.0.0.1:8000/api/groups/${groupId[0]}/`
       );
+      console.log("group", res);
       if (res.error) {
         console.log("error");
         return setError(res.error);
