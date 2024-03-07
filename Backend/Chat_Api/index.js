@@ -50,24 +50,26 @@ function getUserGroups(userId, token) {
           reject(res.statusCode);
         }
       }
-    )
-  })
+    );
+  });
 }
 
 function getGroupName(groupId, token) {
   return new Promise((resolve, reject) => {
     request.get(
-      `http://127.0.0.1:8000/api/groups/${groupId}/`,
+      `http://127.0.0.1:8000/api/groups/${groupId[0]}/`,
       { headers: { Authorization: token } },
       (_err, res, body) => {
         if (res.statusCode === 200) {
-          resolve(JSON.parse(body.name));
+          console.log(JSON.parse(body));
+          resolve(JSON.parse(body).name);
         } else {
+          console.log("Failed to retrieve group name", res);
           reject(res.statusCode);
         }
       }
-    )
-  })
+    );
+  });
 }
 
 app.use("/api/chats", require("./routes/chatRoutes"));
@@ -91,17 +93,20 @@ const io = new Server(httpServer, { cors: "http://localhost:3000" });
 let onlineUsers = [];
 
 io.on("connection", (socket, req) => {
-  socket.on("addNewUser", (userId, token) => {
+  socket.on("addNewUser", ({ userId, token }) => {
     !onlineUsers.some((user) => user.userId === userId) &&
       onlineUsers.push({
         userId,
         socketId: socket.id,
       });
-      getUserGroups(userId, token).then((groups) => {
+    getUserGroups(userId, token)
+      .then((groups) => {
         groups.forEach((group) => {
           socket.join(group.name);
         });
-      });
+      })
+      .catch((err) => console.log("err", err));
+    console.log("online", onlineUsers);
     io.emit("getOnlineUsers", onlineUsers);
   });
   socket.on("sendMessage", (message) => {
@@ -109,12 +114,18 @@ io.on("connection", (socket, req) => {
     console.log("Sending to ", user);
     if (user) io.to(user.socketId).emit("getMessage", message);
   });
-  socket.on("sendGroupMessage", (message, groupId, token) => {
-    const group = getGroupName(groupId, token);
-    io.broadcast.to(group).emit("getMessage", message);
+  socket.on("sendGroupMessage", async (message) => {
+    try {
+      const group = await getGroupName(message.selectedChatId, message.token);
+      console.log("sending group msg", message);
+      io.to(group).emit("getMessage", message);
+    } catch (error) {
+      console.log("Error sending Group Message", error);
+    }
   });
   socket.on("disconnect", () => {
     onlineUsers.filter((user) => user.socketId !== socket.id);
+    console.log("offline", onlineUsers);
     io.emit("getOnlineUsers", onlineUsers);
   });
 });
