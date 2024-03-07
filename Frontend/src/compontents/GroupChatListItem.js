@@ -18,8 +18,14 @@ import { useFetchGroup } from "../hooks/useFetchGroup";
 
 export default function GroupChatListItem(props) {
   let { chat, type, selectedChatId, setSelectedChat } = props;
-  const { createGroupChat, onlineUsers, newMessage, chats, messages } =
-    React.useContext(ChatContext);
+  const {
+    createGroupChat,
+    onlineUsers,
+    newMessage,
+    chats,
+    messages,
+    chatType,
+  } = React.useContext(ChatContext);
   const [currentMessages, setCurrentMessages] = useState([]);
   const { user } = useAuthContext();
   let { recipient, recipientId } = useFetchRecipient(chat, user, type);
@@ -44,8 +50,9 @@ export default function GroupChatListItem(props) {
         <ListItemButton
           onClick={() => {
             toggleMessagesPane();
+            console.log("clicked", chatType);
             if (type === "potential") {
-              createGroupChat(chat.id, chat.members);
+              createGroupChat(chat.id, chat.members, chatType);
             } else setSelectedChat(chat);
           }}
           selected={selected}
@@ -68,7 +75,7 @@ export default function GroupChatListItem(props) {
         >
           <Stack direction="row" spacing={1.5}>
             <AvatarWithStatus
-              online={onlineUsers?.some((user) => chat?.members.includes(user))}
+              online={false}
               username={type === "exist" ? group?.name : chat.name}
               src={type === "exist" ? group?.icon_url : chat.icon_url}
             />

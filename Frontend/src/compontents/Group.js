@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router";
 import { Box, Button, Container } from "@mui/material";
+import { getRequest } from "../utils/services";
 
 const Group = () => {
   const [group, setGroup] = useState({});
@@ -11,16 +12,26 @@ const Group = () => {
 
   // Fetch group based on group ID
   useEffect(() => {
-    axios
-      .get(`http://localhost:8000/api/groups/${params.groupId}/`)
-      .then((res) => setGroup(res.data));
+    const getgroup = async () => {
+      const res = await getRequest(
+        `http://127.0.0.1:8000/api/groups/${params.groupId}/`
+      );
+      if (res.error) console.log(res.error);
+      setGroup(res);
+    };
+    getgroup();
   }, []);
 
   // Fetch posts of the group based on its Id
   useEffect(() => {
-    axios
-      .get(`http://localhost:8000/api/groups/${params.groupId}/posts/`)
-      .then((res) => setPosts(res.data));
+    const getPosts = async () => {
+      const res = await getRequest(
+        `http://127.0.0.1:8000/api/groups/${params.groupId}/posts/`
+      );
+      if (res.error) console.log(res.error);
+      setPosts(res);
+    };
+    getPosts();
   }, []);
 
   return (

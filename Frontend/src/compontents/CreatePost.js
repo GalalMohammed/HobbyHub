@@ -36,7 +36,13 @@ const CreatePost = ({ open, handleClose, groupId, handlePost }) => {
   // Fetch group based on group ID
   React.useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/groups/${groupId}/`)
+      .get(`http://127.0.0.1:8000/api/groups/${groupId}/`, {
+        headers: {
+          Authorization: `Token ${
+            JSON.parse(localStorage.getItem("user"))?.token
+          }`,
+        },
+      })
       .then((res) => setGroup(res.data))
       .catch((error) => console.log(error));
   }, [groupId]);
@@ -46,7 +52,13 @@ const CreatePost = ({ open, handleClose, groupId, handlePost }) => {
   // Fecth hobbies of group category
   React.useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/categories/${group.category}/hobbies/`)
+      .get(`http://127.0.0.0:8000/api/categories/${group?.category}/hobbies/`, {
+        headers: {
+          Authorization: `Token ${
+            JSON.parse(localStorage.getItem("user"))?.token
+          }`,
+        },
+      })
       .then((res) => setHobbies(res.data))
       .catch((error) => console.log(error));
   }, [group]);

@@ -10,7 +10,13 @@ const Groups = ({ category }) => {
   // send a request to join group
   const handleGroup = async (id) => {
     try {
-      await axios.post(`http://localhost:8000/api/groups/${id}/join/`);
+      await axios.post(`http://localhost:8000/api/groups/${id}/join/`, {
+        headers: {
+          Authorization: `Token ${
+            JSON.parse(localStorage.getItem("user"))?.token
+          }`,
+        },
+      });
       console.log("success");
     } catch (error) {
       console.error("Error", error);
@@ -20,7 +26,13 @@ const Groups = ({ category }) => {
   // Fetch groups on component mount
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/categories/${category}/groups/`)
+      .get(`http://localhost:8000/api/categories/${category}/groups/`, {
+        headers: {
+          Authorization: `Token ${
+            JSON.parse(localStorage.getItem("user"))?.token
+          }`,
+        },
+      })
       .then((res) => setGroups(res.data));
   }, [category]);
   return (
