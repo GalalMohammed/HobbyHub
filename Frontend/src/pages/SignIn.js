@@ -56,10 +56,8 @@ export default function SignIn() {
       setCheckFormValues({ ...checkFormValues, password: true });
     }
 
-    await login(formData.get("username"), formData.get("password"))
-
-  }
-
+    await login(formData.get("username"), formData.get("password"));
+  };
 
   return (
     <div className="wrapper" style={{ display: "flex" }}>
@@ -76,8 +74,7 @@ export default function SignIn() {
         }}
       >
         <img
-
-          src="../MakingArt-pana.png"
+          src="../HobbyHub/images/Makingart-pana.png"
           alt="loginPage"
           style={{ width: "300px" }}
         />

@@ -40,7 +40,7 @@ export default function SignUp() {
     email: false,
     password: false,
   });
-  const { signup, isLoading, error } = useSignup()
+  const { signup, isLoading, error } = useSignup();
 
   // Handle form values and send register request
   const handleSubmit = async (event) => {
@@ -63,8 +63,7 @@ export default function SignUp() {
       setCheckFormValues({ ...checkFormValues, password: true });
     }
     console.log(formValues);
-    await signup(formValues.username, formValues.email, formValues.password)
-
+    await signup(formValues.username, formValues.email, formValues.password);
   };
 
   const handleFormValues = (e) => {
@@ -181,7 +180,7 @@ export default function SignUp() {
         }}
       >
         <img
-          src="../PlayingMusic-bro.png"
+          src="../HobbyHub/images/PlayingMusic-bro.png"
           alt="loginPage"
           style={{ width: "300px" }}
         />
