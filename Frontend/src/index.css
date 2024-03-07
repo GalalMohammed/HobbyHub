@@ -351,3 +351,27 @@ input[type="file"] {
   width: 200px;
   height: 40px;
 }
+
+/* ------------------------------------------------ */
+
+div.error {
+  padding: 10px;
+  background: #ffefef;
+  border: 1px solid rgb(223, 3, 3);
+  color: rgb(223, 3, 3);
+  border-radius: 4px;
+  margin: 20px 0;
+}
+input.error {
+  border: 1px solid rgb(223, 3, 3);
+}
+
+.try {
+  background-color: #f2f2f2 !important;
+  border-radius: 20px !important;
+}
+
+.chatTypeBtn {
+  background-color: #d0242e !important;
+  color: white !important;
+}
