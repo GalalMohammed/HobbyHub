@@ -1,7 +1,8 @@
 import React from "react";
 import Layout from "./Layout";
 import { Routes, Route } from "react-router-dom";
-import Home from "./Home";
+
+import Home from "../pages/Home";
 import Group from "./Group";
 import GroupPosts from "./GroupPosts";
 import MyMessages from "../pages/MyMessages";

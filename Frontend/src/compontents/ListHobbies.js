@@ -8,7 +8,13 @@ const Hobbies = ({ category }) => {
   // Fetch hobbies based on chosen category
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/api/categories/${category}/hobbies/`)
+      .get(`http://localhost:8000/api/categories/${category}/hobbies/`, {
+        headers: {
+          Authorization: `Token ${
+            JSON.parse(localStorage.getItem("user"))?.token
+          }`,
+        },
+      })
       .then((res) => setHobbies(res.data))
       .then((res) => console.log("hobbies", hobbies));
   }, [category]);
