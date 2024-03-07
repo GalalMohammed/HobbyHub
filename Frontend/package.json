@@ -1,4 +1,5 @@
 {
+  "proxy": "http://localhost:4000",
   "homepage": "https://GalalMohammed.github.io/HobbyHub",
   "name": "hobbyhub",
   "version": "0.1.0",
