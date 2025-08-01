@@ -75,4 +75,16 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 - Thanks to the amazing open-source community for their valuable contributions and inspiration.
 
+### Resources
+
+- [How To Create an Effective Software Project Plan](https://www.indeed.com/career-advice/career-development/software-project-plan)
+
+- [11 tips to plan, organize, and execute software engineering processes](https://www.teamwork.com/blog/software-engineering-processes/)
+
+- [How to organize a one-man project?](https://softwareengineering.stackexchange.com/questions/98101/how-to-organize-a-one-man-project)
+
+- [Software project planning](https://www.youtube.com/watch?feature=shared&v=X6CkWPjLkhg)
+
+- [Software Planning and Technical Documentation](https://www.youtube.com/watch?feature=shared&v=2qlcY9LkFik)
+
 Happy Hobbies! 🎨🎮🌿
